@@ -39,3 +39,31 @@ Loop over all subsquares in O(n^3) and check if the sum make the whole array to 
 if it checks then add 1 to the answer.
 
 */
+/**
+ * @param {number[][]} matrix
+ * @return {number}
+ */
+var countSquares = function (matrix) {
+  let n = matrix.length,
+    m = matrix[0].length;
+  let ans = new Array(n + 1),
+    count = 0;
+  for (let i = 0; i < n + 1; i++) {
+    ans[i] = new Array(m + 1);
+  }
+  for (let i = 1; i < n + 1; i++) {
+    for (let j = 1; j < m + 1; j++) {
+      if (matrix[i - 1][j - 1] === 1) {
+        ans[i][j] =
+          1 +
+          Math.min(
+            ans[i][j - 1] || 0,
+            ans[i - 1][j] || 0,
+            ans[i - 1][j - 1] || 0
+          );
+        count += ans[i][j];
+      }
+    }
+  }
+  return count;
+};
