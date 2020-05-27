@@ -31,3 +31,38 @@ Note:
 dislikes[i][0] < dislikes[i][1]
 There does not exist i != j for which dislikes[i] == dislikes[j].
 */
+/**
+ * @param {number} N
+ * @param {number[][]} dislikes
+ * @return {boolean}
+ */
+var possibleBipartition = function (N, dislikes) {
+  let adjList = [],
+    groups = new Array(N).fill(-1);
+  for (let each of dislikes) {
+    Array.isArray(adjList[each[0] - 1])
+      ? adjList[each[0] - 1].push(each[1] - 1)
+      : (adjList[each[0] - 1] = [each[1] - 1]);
+
+    Array.isArray(adjList[each[1] - 1])
+      ? adjList[each[1] - 1].push(each[0] - 1)
+      : (adjList[each[1] - 1] = [each[0] - 1]);
+  }
+
+  for (let i = 0; i < N; i++) {
+    if (groups[i] == -1 && !dfs(adjList, groups, i, 0)) return false;
+  }
+  return true;
+};
+
+var dfs = function (adjList, groups, i, isTrue) {
+  if (groups[i] == -1) groups[i] = isTrue;
+  else return groups[i] === isTrue;
+
+  if (!adjList[i]) return true;
+
+  for (let each of adjList[i]) {
+    if (!dfs(adjList, groups, each, 1 - isTrue)) return false;
+  }
+  return true;
+};
