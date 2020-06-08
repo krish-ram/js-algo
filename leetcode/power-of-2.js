@@ -14,3 +14,17 @@ Example 3:
 Input: 218
 Output: false
 */
+var isPowerOfTwo = function (n) {
+  return Math.log2(n) % 1 === 0;
+};
+// ============================Solution 2============================
+
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var isPowerOfTwo = function (n) {
+  if (n == 0) return false;
+
+  return Math.ceil(Math.log2(n)) == Math.floor(Math.log2(n));
+};
